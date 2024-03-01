@@ -1,0 +1,14 @@
+/*
+ * dc_motor.c
+ *
+ *  Created on: 11 Oct 2023
+ *      Author: AbdoS
+ */
+
+#include "dc_motor.h"
+#include "gpio.h"
+
+void DcMotor_Init(void){
+
+}
+

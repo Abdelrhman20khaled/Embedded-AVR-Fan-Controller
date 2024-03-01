@@ -1,0 +1,25 @@
+/*
+ * adc.c
+ *
+ *     Created on: 11 Oct 2023
+ *     Author: Abdelrhman Khaled sobhi
+ *     Group  79
+ */
+
+
+#include "adc.h"
+#include "avr/io.h"
+#include "common_macros.h"
+
+void ADC_init (const ADC_ConfigType *Config_Ptr){
+	ADMUX =( ADMUX & 0x3F) | (Config_Ptr->ref_volt);
+	ADCSRA = (ADCSRA & 0XF8) | (Config_Ptr->prescaler);
+}
+
+uint16 ADC_readChannel(uint8 channel_num){
+	ADMUX = (ADMUX & 0xE0) | (channel_num & 0x07);
+	ADCSRA = (1<<ADSC)|(1<<ADIE);
+	while(BIT_IS_CLEAR(ADCSRA,ADIF));
+	SET_BIT(ADCSRA,ADIF);
+	return ADC;
+}

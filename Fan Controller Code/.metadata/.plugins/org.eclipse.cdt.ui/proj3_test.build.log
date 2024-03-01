@@ -1,0 +1,44 @@
+20:54:31 **** Incremental Build of configuration Debug for project proj3_test ****
+make all 
+Building file: ../adc.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=1000000UL -MMD -MP -MF"adc.d" -MT"adc.o" -c -o "adc.o" "../adc.c"
+Finished building: ../adc.c
+ 
+Building file: ../lm35_sensor.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=1000000UL -MMD -MP -MF"lm35_sensor.d" -MT"lm35_sensor.o" -c -o "lm35_sensor.o" "../lm35_sensor.c"
+Finished building: ../lm35_sensor.c
+ 
+Building file: ../temp_sensor_example.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=1000000UL -MMD -MP -MF"temp_sensor_example.d" -MT"temp_sensor_example.o" -c -o "temp_sensor_example.o" "../temp_sensor_example.c"
+Finished building: ../temp_sensor_example.c
+ 
+Building target: proj3_test.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,proj3_test.map -mmcu=atmega32 -o "proj3_test.elf"  ./adc.o ./gpio.o ./lcd.o ./lm35_sensor.o ./temp_sensor_example.o   
+Finished building target: proj3_test.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S proj3_test.elf  >"proj3_test.lss"
+Finished building: proj3_test.lss
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 proj3_test.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:    8930 bytes (27.3% Full)
+(.text + .data + .bootloader)
+
+Data:        276 bytes (13.5% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+
+20:54:32 Build Finished. 0 errors, 0 warnings. (took 975ms)
+

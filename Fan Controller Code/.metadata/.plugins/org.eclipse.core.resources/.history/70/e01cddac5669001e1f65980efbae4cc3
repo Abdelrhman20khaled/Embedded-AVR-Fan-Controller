@@ -1,0 +1,44 @@
+/*
+ * adc.c
+ *
+ *     Created on: 11 Oct 2023
+ *     Author: Abdelrhman Khaled sobhi
+ *     Group  79
+ */
+
+
+#include "adc.h"
+#include "avr/io.h"
+#include "common_macros.h"
+
+
+/*
+ * the first function in ADC driver is an initialization function that called in main
+ * function one time before loop this function:
+ * 1- take an argument as an pointer from type ADC_ConfigType (pointer to structure).
+ * 2- the pointer to structure point to structure include two elements,
+ * 3- put the value that will take in application layer in it is bit in registers.
+ * 4- call this function in the main function.
+ *
+ */
+
+void ADC_init (const ADC_ConfigType *Config_Ptr){
+
+	/*
+	 * 1- put the value of last 3 bits in register ADMUX by 0 to avoid any override.
+	 * 2- do bitwise OR with the value entered in main function.
+	 * 3- shifted the value to the left by 6 to store it in equivalent bits in ADMUX.
+	 *
+	 */
+	ADMUX  = (ADMUX & 0X3F) | (Config_Ptr->ref_volt<<6);
+
+	ADCSRA = (1<<ADEN) | (Config_Ptr->prescaler & 0X08);
+}
+
+uint16 ADC_readChannel(uint8 channel_num){
+	ADMUX = (ADMUX & 0xE0) | (channel_num & 0x07);
+	SET_BIT(ADCSRA,ADSC);
+	while(BIT_IS_CLEAR(ADCSRA,ADIF));
+	SET_BIT(ADCSRA,ADIF);
+	return ADC;
+}

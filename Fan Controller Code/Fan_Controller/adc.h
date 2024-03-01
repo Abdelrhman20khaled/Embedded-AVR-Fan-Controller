@@ -1,0 +1,75 @@
+/*
+ * adc.h
+ *
+ *      Created on: 11 Oct 2023
+ *      Author: Abdelrhman Khaled sobhi
+ *      Group  79
+ */
+
+#ifndef ADC_H_
+#define ADC_H_
+
+#include "std_types.h"
+
+/******************************************************************************
+ *                                Definitions                                 *
+ ******************************************************************************/
+
+#define ADC_MAXIMUM_VALUE                   1023
+#define ADC_REF_VOLT_VALUE                  5
+#define ADC_INTERNAL_REF_VOLT_VALUE         2.56
+
+/******************************************************************************
+ * 				  	Structure and Enumerators Declaration			          *
+ * ****************************************************************************/
+
+/*
+ * this enumerator include the elements that represent the arranged value of
+ * reference voltage that will put in last two pins (6,7) in register ADMUX.
+ *
+ */
+typedef enum{
+	AREF,AVCC,Reserved,Internal_AREF
+}ADC_ReferenceVolatge;
+
+/*
+ * this enumerator include the elements that represent the arranged value of
+ * prescaler frequency that will put in the first 3 bits in ADCSRA register.
+ *
+ */
+typedef enum{
+	NO_Prescaler,Prescaler_2,Prescaler_4,Prescaler_8,Prescaler_16,Prescaler_32,Prescaler_64,Prescaler_128
+}ADC_Prescaler;
+
+/*
+ * this structure include the two elements one from ADC_ReferenceVolatge called
+ * ref_volt type and another one is from type ADC_Prescaler called prescaler this
+ * structure make the ADC driver more configurable, that changes with the value it
+ * will take in Application layer.
+ *
+ */
+typedef struct{
+	ADC_ReferenceVolatge ref_volt;
+	ADC_Prescaler prescaler;
+}ADC_ConfigType;
+
+/******************************************************************************
+ * 				  			 Functions Prototypes			                  *
+ * ****************************************************************************/
+
+/*
+ * the first function in ADC driver is an initialization function that called in main
+ * function one time before loop this function.
+ *
+ */
+void ADC_init (const ADC_ConfigType *Config_Ptr);
+
+/*
+ * this function that the ADC do it is process in it and save the value in ADC register
+ * then return the stored value.
+ *
+ * */
+uint16 ADC_readChannel(uint8 channel_num);
+
+
+#endif /* ADC_H_ */

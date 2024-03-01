@@ -1,0 +1,25 @@
+/*
+ * pwm.c
+ *
+ *  Created on: 11 Oct 2023
+ *      Author: AbdoS
+ */
+
+#include "pwm.h"
+#include "avr/interrupt.h"
+#include "gpio.h"
+
+/*
+ * the function take on argument:
+ * 1- take an argument duty_cycle
+ * 2- initialize he value on TCNT0 register to zero
+ * 3- store that duty_cycle in OCR0 register.
+ * 4- enable the compare match mode and FAAST PWM mode then choose prescaler.
+ *
+ * */
+void PWM_Timer0_Start(uint8 duty_cycle){
+	TCNT0 = 0;
+	OCR0 = duty_cycle;
+	GPIO_setupPinDirection(TIMER0_PWM_PORT,TIMER0_PWM_PIN,PIN_OUTPUT);
+	TCCR0 = (1<<WGM00) | (1<<COM01) | (1<<WGM01)|(1<<CS01);
+}

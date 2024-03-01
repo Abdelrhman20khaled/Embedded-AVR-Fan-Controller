@@ -1,0 +1,22 @@
+/*
+ * adc.h
+ *
+ *      Created on: 11 Oct 2023
+ *      Author: Abdelrhman Khaled sobhi
+ *      Group  79
+ */
+
+#ifndef ADC_H_
+#define ADC_H_
+
+#include "std_types.h"
+
+/******************************************************************************
+ * 								Structure Declaratio				          *
+ * ****************************************************************************/
+
+typedef struct{
+
+}ADC_ConfigType;
+
+#endif /* ADC_H_ */

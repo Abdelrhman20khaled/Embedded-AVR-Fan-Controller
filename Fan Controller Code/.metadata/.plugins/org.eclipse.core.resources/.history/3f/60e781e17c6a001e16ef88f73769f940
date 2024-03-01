@@ -1,0 +1,102 @@
+/*
+ * Fan_Controller.c
+ *
+ *  Created on: 11 Oct 2023
+ *      Author: Abdelrhman Khaled sobhi
+ *      Group  79
+ */
+
+#include "dc_motor.h"
+#include "adc.h"
+#include "lcd.h"
+
+int main(){
+	// this variable for store the temperature that function of LM35 return
+	uint8 temp;
+	// define the structure from type ADC_ConfigType that take prescalr and REF_VOLT
+	ADC_ConfigType ADC_Config = {Internal_AREF,Prescaler_8};
+	// calling LCD function for initializing it to start display
+	LCD_init();
+	// calling the initialize function of DC motor for stop motor at first
+	DcMotor_Init();
+	/*
+	 * calling the ADC initializing function with address of the structure to
+	 * initialize the ADC register.
+	 *
+	 */
+	ADC_init(&ADC_Config);
+	// display the state of the fan (on/off) in row 0 column 3
+	LCD_displayStringRowColumn(0,3,"Fan is");
+	// display the temperature read from LM35 in row 1 column 3
+	LCD_displayStringRowColumn(1,3,"Temp =     C");
+
+	while(1){
+
+		// store the value that LM35 read in variable temp
+		temp = LM35_getTemperature();
+
+		// this check for avoid any fault when display state of fan on LCD
+		if(temp <30){
+			LCD_displayStringRowColumn(0,10,"OFF");
+		}
+		else{
+			LCD_displayStringRowColumn(0,10,"ON");
+			LCD_displayCharacter(' ');
+		}
+
+		//this check for avoid any fault when display the temperature on LCD
+		if(temp<100){
+			LCD_moveCursor(1,10);
+			LCD_intgerToString(temp);
+			LCD_displayCharacter(' ');
+		}
+		else{
+			LCD_moveCursor(1,10);
+			LCD_intgerToString(temp);
+		}
+
+		// this condition check if the temperature less than 30 stop the motor
+		if(temp < 30){
+			// stop motor by put 0 on enable pin, and output 0 on 2 pins of the motor
+			DcMotor_Rotate(Motor_Stop,0);
+		}
+		/*
+		 * this condition check if the temperature is greater than or equal 30
+		 * less than 60 the motor will rotate clock wise with 25% of it is max speed
+		 *
+		 */
+		else if (temp >= 30 && temp <60){
+			// make a motor rotate CW with speed (25% * 255 = 64)
+			DcMotor_Rotate(Motor_CW,64);
+		}
+		/*
+		 * this condition check if the temperature is greater than or equal 60
+		 * less than 90 the motor will rotate clock wise with 50% of it is max speed
+		 *
+		 */
+		else if (temp >= 60 && temp <90){
+			// make a motor rotate CW with speed (50% * 255 = 128)
+			DcMotor_Rotate(Motor_CW,128);
+		}
+		/*
+		 * this condition check if the temperature is greater than or equal 90
+		 * less than 120 the motor will rotate clock wise with 75% of it is max speed
+		 *
+		 */
+		else if (temp >= 90 && temp <120){
+			// make a motor rotate CW with speed (75% * 255 = 192)
+			DcMotor_Rotate(Motor_CW,192);
+		}
+		/*
+		 * this condition check if the temperature is greater than or equal 120
+		 * the motor will rotate clock wise with it is max speed
+		 *
+		 */
+		else if (temp >=120){
+			// make a motor rotate CW with it is max speed (255).
+			DcMotor_Rotate(Motor_CW,255);
+		}
+
+
+	}
+}

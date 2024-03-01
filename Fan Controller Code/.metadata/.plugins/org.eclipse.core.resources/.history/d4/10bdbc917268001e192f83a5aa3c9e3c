@@ -1,0 +1,54 @@
+/*
+ * Fan_Controller.c
+ *
+ *  Created on: 11 Oct 2023
+ *      Author: Abdelrhman Khaled sobhi
+ *      Group  79
+ */
+
+#include "dc_motor.h"
+#include "adc.h"
+#include "lcd.h"
+
+int main(){
+	uint8 temp;
+	ADC_ConfigType ADC_Config = {AVCC,Prescaler_8};
+	LCD_init();
+	DcMotor_Init();
+	ADC_init(&ADC_Config);
+	LCD_displayStringRowColumn(0,3,"Fan is");
+	LCD_displayStringRowColumn(1,3,"Temp =   C");
+	while(1){
+
+		temp = LM35_getTemperature();
+
+		LCD_moveCursor(1,10);
+		LCD_intgerToString(temp);
+
+
+		if(temp < 30){
+			DcMotor_Rotate(Motor_Stop,0);
+			LCD_displayStringRowColumn(0,10,"OFF");
+		}
+		else if (temp >= 30 && temp <60){
+			DcMotor_Rotate(Motor_CW,64);
+			LCD_displayStringRowColumn(0,10,"ON");
+		}
+		else if (temp >= 60 && temp <90){
+			DcMotor_Rotate(Motor_CW,128);
+			LCD_displayStringRowColumn(0,10,"ON");
+		}
+		else if (temp >= 90 && temp <120){
+			DcMotor_Rotate(Motor_CW,192);
+			LCD_displayStringRowColumn(0,10,"ON");
+		}
+		else if (temp >=120){
+			DcMotor_Rotate(Motor_CW,255);
+			LCD_displayStringRowColumn(0,10,"ON");
+		}
+		else{
+			LCD_intgerToString(temp);
+			LCD_displayCharacter(' ');
+		}
+	}
+}

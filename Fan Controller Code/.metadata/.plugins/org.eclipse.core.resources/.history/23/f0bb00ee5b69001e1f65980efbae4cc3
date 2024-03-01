@@ -1,0 +1,52 @@
+/*
+ * dc_motor.h
+ *
+ *  Created on: 11 Oct 2023
+ *      Author: AbdoS
+ */
+
+#ifndef DC_MOTOR_H_
+#define DC_MOTOR_H_
+
+#include "gpio.h"
+
+/******************************************************************************
+ *                                Definitions                                 *
+ ******************************************************************************/
+
+// this identifier for define the port that motor connected on it
+#define DC_MOTOR_PORT         PORTB_ID
+
+/*
+ *  this identifier for define the two pins that motor need for motion and third pins
+ *   Enable pin is connected to the PWM output pin.
+*/
+#define DC_MOTOR_PIN1         PIN0_ID
+#define DC_MOTOR_PIN2         PIN1_ID
+
+
+/******************************************************************************
+ * 				  	Structure and Enumerators Declaration			          *
+ * ****************************************************************************/
+
+/*
+ * this enum include the elements start from zero to 2 that represent the output on
+ * 2 pins in L293D (IN1,IN2) of motor to make it start motion in specific direction.
+ *
+ */
+typedef enum{
+	Motor_Stop,Motor_A_CW,Motor_CW
+}DcMotor_State;
+
+/******************************************************************************
+ * 				  			 Functions Prototypes			                  *
+ * ****************************************************************************/
+
+/*
+ *this function for initialization the 2 pins of the DC motor
+ */
+void DcMotor_Init(void);
+
+void DcMotor_Rotate(DcMotor_State state,uint8 speed);
+
+#endif /* DC_MOTOR_H_ */

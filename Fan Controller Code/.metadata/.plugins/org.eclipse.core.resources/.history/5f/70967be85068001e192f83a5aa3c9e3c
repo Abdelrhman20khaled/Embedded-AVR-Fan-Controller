@@ -1,0 +1,19 @@
+/*
+ * pwm.h
+ *
+ *  Created on: 11 Oct 2023
+ *      Author: AbdoS
+ */
+
+#ifndef PWM_H_
+#define PWM_H_
+
+typedef enum{
+	No_clock_source,No_Prescaler,Prescaler_8,Prescaler_64,Prescaler_256,
+	Prescaler_1024External_clock_source_falling_edge,External_clock_source_rising_edge
+}Freq_prescaler;
+
+void PWM_Timer0_Start(uint8 duty_cycle);
+
+
+#endif /* PWM_H_ */

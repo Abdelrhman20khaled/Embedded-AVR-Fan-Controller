@@ -1,0 +1,38 @@
+/*
+ * dc_motor.h
+ *
+ *  Created on: 11 Oct 2023
+ *      Author: AbdoS
+ */
+
+#ifndef DC_MOTOR_H_
+#define DC_MOTOR_H_
+
+#include "gpio.h"
+
+/******************************************************************************
+ *                                Definitions                                 *
+ ******************************************************************************/
+
+#define DC_MOTOR_PORT         PORTB_ID
+#define DC_MOTOR_PIN1         PIN0_ID
+#define DC_MOTOR_PIN2         PIN1_ID
+#define DC_MOTOR_ENABLE_PIN   PIN2_ID
+
+/******************************************************************************
+ * 				  	Structure and Enumerators Declaration			          *
+ * ****************************************************************************/
+
+typedef enum{
+	Motor_Stop,Motor_A_CW,Motor_CW
+}DcMotor_State;
+
+/******************************************************************************
+ * 				  			 Functions Prototypes			                  *
+ * ****************************************************************************/
+
+void DcMotor_Init(void);
+
+void DcMotor_Rotate(DcMotor_State state,uint8 speed);
+
+#endif /* DC_MOTOR_H_ */
